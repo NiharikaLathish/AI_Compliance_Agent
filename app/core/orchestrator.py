@@ -20,7 +20,14 @@ from app.core.exceptions import (
     RuleCorpusUnavailableError,
 )
 from app.config import get_settings
-from app.models.schemas import CampaignRequest, ComplianceVerdict, RuleHit, Verdict
+from app.models.schemas import (
+    CampaignRequest,
+    ComplianceVerdict,
+    RuleHit,
+    RuleSource,
+    Severity,
+    Verdict,
+)
 from app.services import (
     citation_generator,
     consent_validation,
@@ -58,6 +65,54 @@ def _merge_hits(keyword: list[RuleHit], gemini: list[RuleHit]) -> list[RuleHit]:
     for rule_id, hit in by_rule.items():
         merged.append(hit.model_copy(update={"triggering_text": ", ".join(phrases[rule_id])}))
     return merged
+
+
+def _channel_rule_hits(req: CampaignRequest, existing_hits: list[RuleHit]) -> list[RuleHit]:
+    """
+    Channel-conditional rules: fire on the combination of channel + content,
+    which a per-text pattern can't express. Keyword/heuristic only (no LLM),
+    so they always run and cost no quota.
+    """
+    if req.channel.value != "social_media":
+        return []
+
+    text = req.content.lower()
+    already = {h.rule_id for h in existing_hits}
+    extra: list[RuleHit] = []
+
+    # ASCI-I-1.8 — social ad with no upfront disclosure label.
+    disclosure_labels = (
+        "advertisement", "sponsored", "collaboration", "partnership",
+        "#ad", "paid partnership", "#sponsored", "#collab",
+    )
+    has_disclosure = any(lbl in text for lbl in disclosure_labels)
+    if not has_disclosure and "ASCI-I-1.8" not in already:
+        extra.append(RuleHit(
+            rule_id="ASCI-I-1.8",
+            rule_source=RuleSource.ASCI,
+            severity=Severity.HIGH,
+            triggering_text="(social post with no disclosure label)",
+        ))
+
+    # ASCI-INFL-QUAL — health/finance influencer claim without a stated qualification.
+    hf_cues = (
+        "cured", "cure", "treat", "hormone", "thyroid", "supplement", "medicine",
+        "investment", "returns", "stocks", "mutual fund", "insurance", "trading",
+    )
+    qual_cues = (
+        "qualified", "certified", "sebi reg", "sebi registration", "doctor",
+        "nutritionist", "dietician", "registration no", "licence", "license",
+    )
+    if any(c in text for c in hf_cues) and not any(q in text for q in qual_cues):
+        if "ASCI-INFL-QUAL" not in already:
+            extra.append(RuleHit(
+                rule_id="ASCI-INFL-QUAL",
+                rule_source=RuleSource.ASCI,
+                severity=Severity.HIGH,
+                triggering_text="(health/finance advice without stated qualification)",
+            ))
+
+    return extra
 
 
 def _audit_id() -> str:
@@ -121,6 +176,10 @@ async def run_compliance_check(req: CampaignRequest) -> ComplianceVerdict:
     # Always collapse to one hit per rule (combines keyword + Gemini, and
     # also de-duplicates multiple keyword phrases that hit the same rule).
     hits = _merge_hits(hits, gemini_hits)
+
+    # Channel-conditional rules (e.g. social-media disclosure, influencer
+    # qualification) — appended after merge because they depend on the channel.
+    hits = hits + _channel_rule_hits(req, hits)
 
     # 4. Citation generator — attach the law + fix to each hit.
     violations = citation_generator.generate(hits)
