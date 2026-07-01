@@ -39,9 +39,12 @@ def _get_client():
 
 
 def _build_prompt(content: str) -> str:
+    # Some rules are marked keyword-only (gemini: false) because the model tends
+    # to over-apply them; those are matched by regex only and kept out of here.
     lines = [
         f"- {r['id']} ({r['source']}, {r['citation']}): {r['explanation']}"
         for r in corpus.all_rules()
+        if r.get("gemini", True)
     ]
     rules_block = "\n".join(lines)
     return (
@@ -49,7 +52,12 @@ def _build_prompt(content: str) -> str:
         "compliance rules, each with an ID. Decide which rules the campaign "
         "VIOLATES. Judge meaning and context, not just keywords (e.g. an "
         "unsubstantiated superlative counts even if phrased without the word "
-        "'best'; a negated phrase like 'we are not the cheapest' does NOT).\n\n"
+        "'best'; a negated phrase like 'we are not the cheapest' does NOT).\n"
+        "Be precise: only flag a rule when the campaign text clearly and "
+        "specifically matches it. Do not infer a violation from a generic "
+        "sign-up or data-collection phrase, and do not flag several overlapping "
+        "rules for the same wording - pick the single most specific rule that "
+        "applies.\n\n"
         f"RULES:\n{rules_block}\n\n"
         f"CAMPAIGN:\n\"\"\"\n{content}\n\"\"\"\n\n"
         "Return ONLY a JSON array, no prose, no markdown fences. Each item: "
@@ -87,6 +95,7 @@ async def detect(content: str) -> list[RuleHit]:
     try:
         raw = await asyncio.to_thread(_call_gemini, _build_prompt(content))
     except Exception as e:  # noqa: BLE001 — any SDK/network/quota error degrades safely
+        print(f"[GEMINI FAILED] {type(e).__name__}: {e}")
         raise LLMUnavailableError(str(e)) from e
 
     hits: list[RuleHit] = []
@@ -94,6 +103,8 @@ async def detect(content: str) -> list[RuleHit]:
         rule = corpus.get_rule(item.get("rule_id", ""))
         if rule is None:
             continue  # model named a rule that doesn't exist -> ignore, never fabricate
+        if not rule.get("gemini", True):
+            continue  # keyword-only rule -> the model may not apply it
         hits.append(
             RuleHit(
                 rule_id=rule["id"],

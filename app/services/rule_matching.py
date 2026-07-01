@@ -25,7 +25,10 @@ async def _check_source(source: str, text: str) -> list[RuleHit]:
     """Check one rule source. Runs as its own coroutine."""
     hits: list[RuleHit] = []
     for rule in corpus.rules_for(source):
-        for match in re.finditer(rule["pattern"], text):
+        pat = rule.get("pattern", "")
+        if not pat:            # empty pattern is not a keyword rule — leave it to the Gemini path
+            continue
+        for match in re.finditer(pat, text):
             hits.append(
                 RuleHit(
                     rule_id=rule["id"],
@@ -34,7 +37,7 @@ async def _check_source(source: str, text: str) -> list[RuleHit]:
                     triggering_text=match.group(0),
                 )
             )
-    await asyncio.sleep(0)  # real I/O (DB/vector lookup) slots in here
+    await asyncio.sleep(0)
     return hits
 
 

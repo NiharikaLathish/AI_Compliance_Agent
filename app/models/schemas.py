@@ -18,8 +18,9 @@ from pydantic import BaseModel, Field
 
 class Channel(str, Enum):
     EMAIL = "email"
-    SMS = "SMS"
-    WHATSAPP = "WhatsApp"
+    SMS = "sms"
+    WHATSAPP = "whatsapp"
+    SOCIAL_MEDIA = "social_media"
 
 
 class Verdict(str, Enum):

@@ -15,7 +15,7 @@ BASE_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 TIMEOUT = 30
 
 KNOWN_SEGMENTS = ["all_customers", "premium_segment", "low_consent_segment", "newsletter_optin"]
-CHANNELS = ["email", "SMS", "WhatsApp"]
+CHANNELS = ["email", "sms", "whatsapp", "social_media"]
 
 # DEMO users (stand-in for SSO). name -> (api_key, role)
 DEMO_USERS = {

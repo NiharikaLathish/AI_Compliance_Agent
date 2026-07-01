@@ -1,22 +1,406 @@
 {
-  "version": "2026.06.1",
+  "version": "2026.06.6",
   "sources": {
     "ASCI": [
       {
-        "id": "ASCI-I-1.4",
-        "pattern": "\\b(best|no\\.?\\s?1|number one|world'?s|india'?s)\\b",
-        "severity": "Critical",
-        "citation": "ASCI Code Chapter I, Clause 1.4",
-        "explanation": "Unsubstantiated superlative or comparative claim.",
-        "suggested_fix": "Remove the absolute superlative or add verifiable substantiation (e.g. cite the test/study)."
+        "id": "ASCI-I-1.1",
+        "pattern": "best|no\\.?\\s?1|number one|#1|world'?s|india'?s|unbeatable|unmatched|nothing comes close|market leader|fastest|strongest|most trusted|guaranteed results",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.1",
+        "explanation": "Superiority or superlative claim relating to objectively ascertainable fact that must be capable of substantiation.",
+        "suggested_fix": "Provide substantiation (source + date) or reframe. Obvious, clearly humorous exaggeration is permitted under Clause 1.6.",
+        "basis": "Ch I 1.1 - all descriptions, claims and comparisons of ascertainable fact must be capable of substantiation. Read with 1.6 (hyperbole permitted).",
+        "gemini": false
       },
       {
-        "id": "ASCI-I-1.1",
-        "pattern": "(100%|\\bguaranteed\\b|\\brisk[- ]?free\\b)",
+        "id": "ASCI-I-1.4-FREE",
+        "pattern": "free|complimentary|at no cost|absolutely free",
         "severity": "High",
-        "citation": "ASCI Code Chapter I, Clause 1.1",
-        "explanation": "Absolute guarantee likely to mislead.",
-        "suggested_fix": "Qualify the claim or remove the absolute guarantee."
+        "citation": "ASCI Code, Chapter I, Clause 1.4 (example a)",
+        "explanation": "Describes something as 'free' where the consumer in fact bears a direct cost beyond actual delivery/postage.",
+        "suggested_fix": "Only use 'free' where there is no direct cost; otherwise state the cost clearly.",
+        "basis": "Ch I 1.4 example (a) - products may not be called 'free' if there is any direct cost other than delivery/freight/postage.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-I-1.4-UPTO",
+        "pattern": "up to|upto|as low as|starting (from|at)|from just|prices from",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.4 (example c)",
+        "explanation": "'Up to' / 'from as low as' style claim that may mislead about the extent of availability or applicability of the benefit.",
+        "suggested_fix": "Clarify how many/which units actually qualify so the consumer is not misled about availability.",
+        "basis": "Ch I 1.4 example (c) - 'up to X' / 'prices from as low as Y' claims are unacceptable if likely to mislead on availability or applicability.",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-I-1.4-VULNERABLE",
+        "pattern": "baldness|hair loss|obesity|weight loss|fairer|height increase|grow taller|impotence|infertility|cure|miracle|permanent solution",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.4 (example d)",
+        "explanation": "Claim addressed to people anxious about a physical attribute (height, weight, baldness, fertility, illness) that may exceed prudent medical standards or the product's real efficacy.",
+        "suggested_fix": "Keep claims within accepted medical practice and the product's actual efficacy; substantiate.",
+        "basis": "Ch I 1.4 example (d) - special care/restraint in ads to those anxious about physical attributes; claims must not exceed prudent medical standards or real efficacy.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-I-1.4-INVEST",
+        "pattern": "guaranteed returns|assured returns|risk.?free|double your money|fixed return|high returns|guaranteed income",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.4 (example e)",
+        "explanation": "Investment invitation that may mislead on security, rate of return, or terms.",
+        "suggested_fix": "Disclose conditions/assumptions; do not overstate security or returns.",
+        "basis": "Ch I 1.4 example (e) - ads inviting investment must not mislead on security, returns or amortisation terms.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-I-1.4",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.4",
+        "explanation": "Claim that misleads by implication, omission, ambiguity or exaggeration even when no single word is false (e.g. 'no rival can match this').",
+        "suggested_fix": "Reword so both the literal and the implied message are accurate and substantiated.",
+        "basis": "Ch I 1.4 - ads shall not distort facts nor mislead by implication, omission, ambiguity or exaggeration.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-I-1.5",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.5",
+        "explanation": "Framed so as to abuse consumer trust or exploit their lack of experience or knowledge.",
+        "suggested_fix": "Remove framing that preys on inexperience; present facts plainly.",
+        "basis": "Ch I 1.5 - ads must not abuse consumer trust or exploit lack of experience/knowledge.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-I-1.8",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter I, Clause 1.8",
+        "explanation": "Channel is social media and the creative carries no clear, upfront disclosure label identifying it as an ad.",
+        "suggested_fix": "Add a permitted upfront label: Advertisement, Ad, Sponsored, Collaboration, Partnership.",
+        "basis": "Ch I 1.8 - social media ads/promotions must carry upfront, prominent disclosure distinguishing them from editorial content.",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-II-2",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter II",
+        "explanation": "Indecent, vulgar or repulsive content, especially in the depiction of women, likely to cause grave or widespread offence.",
+        "suggested_fix": "Remove indecent/vulgar depiction.",
+        "basis": "Ch II - ads must contain nothing indecent or vulgar, especially in depicting women, that would cause grave/widespread offence.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-III-3.1a",
+        "pattern": "",
+        "severity": "Critical",
+        "citation": "ASCI Code, Chapter III, Clause 3.1(a)",
+        "explanation": "Tends to incite crime, or to promote disorder, violence or intolerance.",
+        "suggested_fix": "Remove content that incites crime, violence or intolerance.",
+        "basis": "Ch III 3.1(a).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-III-3.1b",
+        "pattern": "",
+        "severity": "Critical",
+        "citation": "ASCI Code, Chapter III, Clause 3.1(b)",
+        "explanation": "Derides a group on the basis of race, caste, colour, religion, gender, body shape, age, sexual orientation, gender identity, disability or nationality.",
+        "suggested_fix": "Remove the derisive depiction.",
+        "basis": "Ch III 3.1(b).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-III-3.1c",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter III, Clause 3.1(c)",
+        "explanation": "Presents criminality as desirable or encourages people, especially children, to emulate it, or conveys the modus operandi of a crime.",
+        "suggested_fix": "Remove glamorisation of crime.",
+        "basis": "Ch III 3.1(c).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-III-3.2",
+        "pattern": "",
+        "severity": "Critical",
+        "citation": "ASCI Code, Chapter III, Clause 3.2",
+        "explanation": "Ad addressed to children (audience = children) that could cause physical, mental or moral harm or exploit their vulnerability.",
+        "suggested_fix": "Remove harmful or exploitative content from child-directed creative.",
+        "basis": "Ch III 3.2 - ads to children must not cause physical/mental/moral harm. Children defined as under 12 (Definitions).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-III-3.3",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter III, Clause 3.3",
+        "explanation": "Shows or refers to dangerous practices, manifests disregard for safety, or encourages negligence without justifiable reason.",
+        "suggested_fix": "Remove unsafe depiction or add the necessary safety framing/justification.",
+        "basis": "Ch III 3.3.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-III-3.5",
+        "pattern": "tobacco|cigarette|gutkha|pan masala|liquor|whisky|vodka|beer|narcotic",
+        "severity": "Critical",
+        "citation": "ASCI Code, Chapter III, Clause 3.5",
+        "explanation": "Propagates a product or service whose use is banned under law, or surrogate advertising of a restricted category.",
+        "suggested_fix": "Do not advertise legally banned products; check for surrogate advertising of restricted categories.",
+        "basis": "Ch III 3.5 / 3.6 - ads shall not propagate banned products, nor circumvent restrictions via surrogate ads.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-IV-4.1",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter IV, Clause 4.1(e)",
+        "explanation": "Comparison that unfairly denigrates, attacks or discredits a competitor directly or by implication.",
+        "suggested_fix": "Keep comparisons factual and substantiable; remove disparaging framing.",
+        "basis": "Ch IV 4.1 - comparisons permitted only if factual, accurate, substantiable (c) and not unfairly denigrating (e).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-IV-4.2",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Chapter IV, Clause 4.2",
+        "explanation": "Makes unjustifiable use of another firm's name, initials, trademark or goodwill.",
+        "suggested_fix": "Remove unauthorised use of another brand's name, mark or goodwill.",
+        "basis": "Ch IV 4.2.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-AUTO-1",
+        "pattern": "stunt|drift|top speed|race|racing|reckless|no helmet|without seatbelt|speeding",
+        "severity": "High",
+        "citation": "ASCI Code, Automotive Vehicles Guideline",
+        "explanation": "Automotive ad that portrays traffic violations, reckless/unsafe driving, or stunts without a readable cautionary message.",
+        "suggested_fix": "Show safe practices; add a cautionary message for any stunts/professional-skill scenes.",
+        "basis": "Automotive Guideline (a)-(c) - ads should not portray traffic violations, unsafe driving, or unmarked stunts.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-FB-1",
+        "pattern": "immunity|boosts intelligence|makes you smarter|grow taller|stronger bones|doctor recommended|clinically proven|healthy",
+        "severity": "High",
+        "citation": "ASCI Code, Foods & Beverages Guideline, Clauses 1-2",
+        "explanation": "F&B ad implying consumption causes personal change in intelligence/physical ability, or a health/nutrition claim, without scientific substantiation.",
+        "suggested_fix": "Substantiate with adequate scientific basis per FSS Act; remove unsupported health claims.",
+        "basis": "F&B Guideline 1-2 - F&B ads must not mislead on intelligence/ability; health/nutrition claims need scientific evidence.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-FB-7",
+        "pattern": "meal replacement|replaces a meal|complete meal in",
+        "severity": "High",
+        "citation": "ASCI Code, Foods & Beverages Guideline, Clause 7",
+        "explanation": "Promotes a food/beverage as a meal replacement when it is not nutritionally designed as one.",
+        "suggested_fix": "Do not portray as a meal replacement unless nutritionally designed as such.",
+        "basis": "F&B Guideline 7.",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-EDU-1",
+        "pattern": "recognised|accredited|approved|affiliated|authorised|govt approved|ugc approved|aicte",
+        "severity": "High",
+        "citation": "ASCI Code, Educational Institutions Guideline, Clause 1",
+        "explanation": "States or implies an institution/course is official, recognised, accredited or affiliated without substantiation.",
+        "suggested_fix": "Only claim recognition/affiliation that can be substantiated; name the authority.",
+        "basis": "Education Guideline 1.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-EDU-3-4",
+        "pattern": "100%\\s?(placement|job|selection|results)|guaranteed (job|admission|rank|selection|placement)|assured (job|placement|admission)|job guarantee",
+        "severity": "High",
+        "citation": "ASCI Code, Educational Institutions Guideline, Clauses 3-4",
+        "explanation": "Guarantees a rank, job, admission or salary, or makes a 100% claim on an abstract/non-quantifiable outcome (e.g. 100% placement).",
+        "suggested_fix": "Remove the guarantee/100% claim, or substantiate and add the disclaimer 'past record is no guarantee of future prospects'.",
+        "basis": "Education Guideline 3 (no guaranteed outcome without substantiation + disclaimer) and 4 (no 100% claims on abstract outcomes).",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-EDU-8",
+        "pattern": "last few seats|admission closing|hurry|don't miss|limited seats|deadline approaching",
+        "severity": "High",
+        "citation": "ASCI Code, Educational Institutions Guideline, Clause 8",
+        "explanation": "Creates false urgency or fear of missing out that could heighten anxiety among students or parents.",
+        "suggested_fix": "Remove manufactured urgency directed at students/parents.",
+        "basis": "Education Guideline 8.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-FAIR-1",
+        "pattern": "fairness|fair skin|gora|whitening|skin lightening|fair complexion|fairer|brightening",
+        "severity": "Critical",
+        "citation": "ASCI Code, Skin Lightening / Fairness Guideline, Clause 1 (read with Ch III 3.1(b))",
+        "explanation": "Suggests darker skin is inferior, or links skin tone to attractiveness, matrimony, jobs or success.",
+        "suggested_fix": "Remove any link between skin tone and personal/social/professional success.",
+        "basis": "Fairness Guideline 1 - ads must not communicate skin-colour discrimination or negative stereotyping.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-AWARD-2",
+        "pattern": "award winning|rated #?1|ranked|voted best|no\\.?1 brand|award-winning|winner of",
+        "severity": "High",
+        "citation": "ASCI Code, Awards/Rankings Guideline, Clause 2",
+        "explanation": "References an award or ranking without clearly naming the awarding organisation and the month/year it was given.",
+        "suggested_fix": "Name the awarding body and the month/year; ensure the award is current and substantiable.",
+        "basis": "Awards/Rankings Guideline 2 - ads referencing awards must name the organisation and the month/year.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-INFL-VIRTUAL",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Influencer Guideline, Clause 1.4",
+        "explanation": "A virtual/AI influencer is used without disclosing upfront that the audience is not interacting with a real human.",
+        "suggested_fix": "Add a prominent, upfront disclosure that the influencer is virtual.",
+        "basis": "Influencer Guideline 1.4.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-INFL-QUAL",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Influencer Guideline, Addendum II (06.03.2025)",
+        "explanation": "Health/nutrition or BFSI (financial) advice from an influencer without the required qualifications/registration stated upfront (e.g. SEBI registration, medical/nutrition qualification).",
+        "suggested_fix": "State the influencer's qualification/registration upfront, or limit content to generic non-technical information.",
+        "basis": "Influencer Addendum II - health and financial influencers must state qualifications/registration prominently and upfront.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-VDA-1.1",
+        "pattern": "crypto|cryptocurrency|nft|non.?fungible|virtual digital asset|web3|tokens?|bitcoin|ethereum",
+        "severity": "Critical",
+        "citation": "ASCI Code, Virtual Digital Assets Guideline, Clause 1.1",
+        "explanation": "Ad for or featuring crypto/NFT/VDA products without the mandatory risk disclaimer.",
+        "suggested_fix": "Add the mandatory disclaimer: 'Crypto products and NFTs are unregulated and can be highly risky. There may be no regulatory recourse for any loss from such transactions.'",
+        "basis": "VDA Guideline 1.1 - all VDA ads must carry the prescribed risk disclaimer, prominent and unmissable.",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-VDA-2",
+        "pattern": "currency|securities|custodian|depositories|depository",
+        "severity": "High",
+        "citation": "ASCI Code, Virtual Digital Assets Guideline, Clause 2",
+        "explanation": "Uses the words 'currency', 'securities', 'custodian' or 'depositories' in a VDA ad, terms consumers associate with regulated products.",
+        "suggested_fix": "Remove these regulated-product terms from VDA advertising.",
+        "basis": "VDA Guideline 2.",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-VDA-9",
+        "pattern": "guaranteed profit|assured returns|future profit|profits guaranteed|get rich",
+        "severity": "Critical",
+        "citation": "ASCI Code, Virtual Digital Assets Guideline, Clauses 8-10",
+        "explanation": "VDA ad promising/guaranteeing future profit, downplaying risk, or presenting VDA as a solution to money/personality problems.",
+        "suggested_fix": "Remove profit guarantees and risk-downplaying; do not present VDA as a fix for personal problems.",
+        "basis": "VDA Guideline 8 (not a solution to problems), 9 (no guaranteed future profit), 10 (must not downplay risk).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-VDA-7",
+        "pattern": "",
+        "severity": "Critical",
+        "citation": "ASCI Code, Virtual Digital Assets Guideline, Clause 7",
+        "explanation": "Shows a minor (or someone appearing to be a minor) dealing with or talking about a VDA product.",
+        "suggested_fix": "Remove minors from VDA creative.",
+        "basis": "VDA Guideline 7.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-GENDER-1",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Harmful Gender Stereotypes Guideline, Clause 1",
+        "explanation": "Suggests a stereotypical role or characteristic is uniquely/always associated with one gender, the only option for it, or never done by another gender.",
+        "suggested_fix": "Avoid presenting gendered roles as exclusive or mandatory.",
+        "basis": "Gender Guideline 1 (and 1.1 for children's products/activities).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-GENDER-3-5",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Harmful Gender Stereotypes Guideline, Clauses 3-6",
+        "explanation": "Mocks people for not conforming to gender stereotypes or for their orientation/identity; reinforces unrealistic gender ideals; or implies failure at a task because of gender or physique.",
+        "suggested_fix": "Remove mockery, condescension, or links between gender/physique and failure.",
+        "basis": "Gender Guideline 3 (mockery), 4 (unrealistic ideals), 5 (fails due to gender), 6 (physique as reason for failure).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-GENDER-7-8",
+        "pattern": "",
+        "severity": "Critical",
+        "citation": "ASCI Code, Harmful Gender Stereotypes Guideline, Clauses 7-8",
+        "explanation": "Sexually objectifies a person irrelevantly to the product, or normalises gender-based domination, threats, harassment, eve-teasing or stalking.",
+        "suggested_fix": "Remove sexual objectification and any normalisation of harassment or domination.",
+        "basis": "Gender Guideline 7 (objectification), 8 (domination/harassment).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-DARK-1",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Online Deceptive Design Patterns Guideline, Clause 1 (Drip Pricing)",
+        "explanation": "Quoted price omits non-optional taxes, fees or charges that apply to most buyers (drip pricing).",
+        "suggested_fix": "Show the all-inclusive price upfront on the listing/ad.",
+        "basis": "Dark Patterns Guideline 1.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-DARK-2",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Online Deceptive Design Patterns Guideline, Clause 2 (Bait and Switch)",
+        "explanation": "Implies one outcome from a consumer action but delivers another (e.g. advertised item unavailable, then a substitute is pushed).",
+        "suggested_fix": "Deliver the advertised offer; do not switch to an alternative outcome.",
+        "basis": "Dark Patterns Guideline 2.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-DARK-3",
+        "pattern": "only \\d+ left|hurry|limited stock|few left|selling fast|last chance|ends (today|soon|in)|while stocks last|almost gone|limited time",
+        "severity": "High",
+        "citation": "ASCI Code, Online Deceptive Design Patterns Guideline, Clause 3 (False Urgency)",
+        "explanation": "Implies stock or availability is more limited than it actually is.",
+        "suggested_fix": "Only use scarcity language where the real stock position supports it.",
+        "basis": "Dark Patterns Guideline 3.",
+        "gemini": false
+      },
+      {
+        "id": "ASCI-DARK-4",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Online Deceptive Design Patterns Guideline, Clause 4 (Disguised Ads)",
+        "explanation": "Ad presented in a format resembling editorial or organic content without clearly disclosing it is an ad.",
+        "suggested_fix": "Clearly label as an advertisement.",
+        "basis": "Dark Patterns Guideline 4.",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-CHAR-1",
+        "pattern": "",
+        "severity": "High",
+        "citation": "ASCI Code, Charitable Causes Guideline, Clauses 1-4",
+        "explanation": "Charity/crowdfunding ad that shames non-donors, disrespects beneficiary dignity with graphic distressing imagery, or misleads about where donations go.",
+        "suggested_fix": "Remove shaming and undue-distress imagery; disclose if funds may be used for other purposes/beneficiaries.",
+        "basis": "Charitable Guideline 1 (no shaming), 2 (dignity/graphic images), 4 (disclose alternative use of funds).",
+        "gemini": true
+      },
+      {
+        "id": "ASCI-GREEN-1",
+        "pattern": "eco.?friendly|environment.?friendly|sustainable|planet.?friendly|100%?\\s?natural|carbon neutral|net zero|green|biodegradable|compostable|recyclable|non.?toxic",
+        "severity": "High",
+        "citation": "ASCI Code, Environmental/Green Claims Guideline, Clauses 1-2",
+        "explanation": "Absolute or comparative green claim that must be backed by robust data or credible accreditation; absolute claims cannot be rescued by a disclaimer or QR code.",
+        "suggested_fix": "Attach robust evidence/accreditation, narrow to a specific substantiated benefit, and state the basis of any comparison.",
+        "basis": "Green Guideline 1 (absolute claims need robust substantiation, not diluted by disclaimer) and 2 (comparative claims need evidence + clear basis).",
+        "gemini": false
       }
     ],
     "TRAI": [
@@ -41,20 +425,138 @@
     ],
     "DPDP": [
       {
-        "id": "DPDP-S6-NOTICE",
-        "pattern": "\\b(we (use|share|sell)|your (data|details|number|contact)|third[- ]party|partners)\\b",
+        "id": "DPDP-S5-NOTICE",
+        "pattern": "\\b(sign\\s?up|subscribe|register|enter your|provide your|share your)\\b.{0,40}\\b(email|phone|number|contact|details|data|address|name)\\b",
         "severity": "High",
-        "citation": "DPDP Act 2023, Section 5 (Notice)",
-        "explanation": "Reference to using or sharing personal data without a clear consent notice.",
-        "suggested_fix": "Add an explicit notice of purpose and a consent/opt-out mechanism before using personal data."
+        "citation": "DPDP Act 2023, s. 5(1) (Notice)",
+        "explanation": "Personal data is being collected without an accompanying notice of what data is collected and the purpose. s.5(1) requires a notice of the data, the purpose, how to exercise rights, and how to complain to the Board.",
+        "suggested_fix": "Add a clear notice stating what personal data is collected, the specific purpose, and a link to the privacy notice before collecting it.",
+        "basis": "Section 5(1) - verbatim requirement that every consent request be accompanied/preceded by a notice."
       },
       {
-        "id": "DPDP-S6-PURPOSE",
-        "pattern": "\\b(automatically (subscribed|enrolled)|pre[- ]?(ticked|selected|checked)|by default you)\\b",
+        "id": "DPDP-S5-SHARING",
+        "pattern": "\\b(we (use|share|sell)|share your (data|details|number|contact)|third[- ]party|with our partners)\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 5(1) (Notice of sharing)",
+        "explanation": "Applies ONLY when the campaign explicitly states that personal data will be shared, sold, or disclosed to other parties (e.g. 'we share your data with partners', 'sold to third parties'). Does NOT apply to a plain sign-up or data collection that does not mention sharing.",
+        "suggested_fix": "Disclose who data is shared with and why, and obtain specific consent for that sharing.",
+        "basis": "Section 5(1) read with s.11(1)(b) (right to know recipients of shared data)."
+      },
+      {
+        "id": "DPDP-S6-CONSENT-AFFIRMATIVE",
+        "pattern": "\\b(automatically (subscribed|enrolled)|pre[- ]?(ticked|selected|checked)|by default you|already opted[- ]?in|deemed consent)\\b",
         "severity": "Critical",
-        "citation": "DPDP Act 2023, Section 6 (Consent)",
-        "explanation": "Implied or pre-ticked consent — consent must be free, specific, and affirmative.",
-        "suggested_fix": "Remove pre-ticked/auto-enrolment language; require an explicit opt-in action."
+        "citation": "DPDP Act 2023, s. 6(1) (Consent must be a clear affirmative action)",
+        "explanation": "Implied, pre-ticked or auto-enrolment consent. s.6(1) requires consent that is free, specific, informed, unconditional and unambiguous, with a clear affirmative action.",
+        "suggested_fix": "Remove pre-ticked/auto-enrolment language; require an explicit, unticked opt-in action by the user.",
+        "basis": "Section 6(1) - 'clear affirmative action'."
+      },
+      {
+        "id": "DPDP-S6-CONDITIONAL",
+        "pattern": "\\b(by (continuing|signing up|using)[^.]{0,40}you (agree|consent)|consent is (mandatory|required) to (use|access)|must (agree|consent) to (all|marketing))\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 6(1) (Unconditional, specific consent)",
+        "explanation": "Applies ONLY when consent is clearly bundled or forced - e.g. 'by signing up you agree to all marketing', or consent made a condition of an unrelated service. Does NOT apply to an ordinary opt-in or sign-up that asks only for what is needed.",
+        "suggested_fix": "Unbundle consent; ask separately for each purpose and only for data necessary to that purpose. Do not gate the core service on marketing consent.",
+        "basis": "Section 6(1) - consent 'unconditional' and 'limited to such personal data as is necessary'.",
+        "gemini": false
+      },
+      {
+        "id": "DPDP-S6-WITHDRAWAL",
+        "pattern": "\\b(cannot (be )?(unsubscribe[d]?|opt[- ]?out|withdraw)|no opt[- ]?out|consent is (final|permanent|irrevocable)|you cannot withdraw)\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 6(4) (Right to withdraw consent)",
+        "explanation": "Language denying or obstructing withdrawal of consent. s.6(4) gives the right to withdraw consent at any time, with ease comparable to giving it.",
+        "suggested_fix": "Provide an easy withdrawal/unsubscribe mechanism that is as simple as the original opt-in.",
+        "basis": "Section 6(4) - right to withdraw, 'ease comparable to the ease with which consent was given'."
+      },
+      {
+        "id": "DPDP-S9-CHILD-TARGETING",
+        "pattern": "\\b(kids|children|child|toddler|teen(s|ager)?|under[- ]?(13|18)|school\\s?kids)\\b",
+        "severity": "Critical",
+        "citation": "DPDP Act 2023, s. 9(3) (No targeted advertising to children)",
+        "explanation": "Content appears directed at or to target children. s.9(3) prohibits targeted advertising, tracking and behavioural monitoring directed at children (under 18).",
+        "suggested_fix": "Do not run behavioural/targeted advertising aimed at children. If the audience may include children, remove targeting and ensure age-appropriate handling.",
+        "basis": "Section 9(3) - prohibition on tracking, behavioural monitoring and targeted advertising directed at children; s.2(f) defines child as under 18."
+      },
+      {
+        "id": "DPDP-S9-CHILD-CONSENT",
+        "pattern": "\\b(kids|children|child|teen(s|ager)?|under[- ]?18)\\b.{0,40}\\b(sign\\s?up|register|create (an )?account|enter your|email|details)\\b",
+        "severity": "Critical",
+        "citation": "DPDP Act 2023, s. 9(1) (Verifiable parental consent)",
+        "explanation": "Collecting personal data from children without verifiable parental consent. s.9(1) requires verifiable consent of a parent/guardian before processing a child's personal data.",
+        "suggested_fix": "Implement verifiable parental consent before collecting any personal data from users under 18.",
+        "basis": "Section 9(1) - verifiable parental consent required before processing a child's data."
+      },
+      {
+        "id": "DPDP-S6-PLAIN-LANGUAGE",
+        "pattern": "",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 6 (Clear and plain language; DPO contact)",
+        "explanation": "Consent or data-collection request written in dense legalese, or that does not itemise the data and purpose in language an ordinary user can understand, or gives no contact point for queries.",
+        "suggested_fix": "Rewrite the consent request in clear, plain language itemising exactly what data is collected and why, and give a contact point (Data Protection Officer / query channel).",
+        "basis": "Section 6 - request for consent must be in clear and plain language, itemised, with the contact details of the person able to answer queries. VERIFY exact subsection against the Act PDF.",
+        "gemini": true
+      },
+      {
+        "id": "DPDP-S6-OVERCOLLECTION",
+        "pattern": "\\b(aadhaar|pan|income|salary|date of birth|d\\.?o\\.?b|location|gps|gender|religion|caste|marital status)\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 6(1) (Data minimisation - consent limited to necessary data)",
+        "explanation": "Collects personal data that appears excessive or unrelated to the stated purpose (e.g. a newsletter sign-up asking for Aadhaar, income, location or other sensitive fields).",
+        "suggested_fix": "Collect only data necessary for the specified purpose; drop fields not needed to deliver it.",
+        "basis": "Section 6(1) - consent is 'limited to such personal data as is necessary for the specified purpose'.",
+        "gemini": true
+      },
+      {
+        "id": "DPDP-S7-PURPOSE-LIMIT",
+        "pattern": "\\b(for (any|other|various|future|marketing and other)\\s?purpose|other uses|we may use your (data|information) for|any purpose we|repurpose)\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 5 / s. 7 (Purpose limitation)",
+        "explanation": "States or implies the data may be used for purposes beyond the specific one the user consented to (open-ended 'any purpose' language).",
+        "suggested_fix": "State a single specific purpose; obtain fresh consent for any new purpose rather than reserving open-ended use.",
+        "basis": "Section 5(1)/7 - data may be processed only for the specified purpose for which consent was given or a defined legitimate use.",
+        "gemini": true
+      },
+      {
+        "id": "DPDP-S8-RETENTION",
+        "pattern": "\\b((keep|store|retain|hold)\\b.{0,25}\\b(forever|indefinitely|permanently|always|all time)|never delete|stored permanently|retained indefinitely|lifetime (storage|retention))\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 8(7) (Erasure / storage limitation)",
+        "explanation": "Claims indefinite or permanent retention of personal data. s.8(7) requires erasure once consent is withdrawn or the purpose is no longer being served.",
+        "suggested_fix": "State a defined retention period and commit to erasing data when the purpose is served or consent is withdrawn.",
+        "basis": "Section 8(7) - data fiduciary must erase personal data on withdrawal of consent or when the purpose is no longer served, unless retention is legally required.",
+        "gemini": false
+      },
+      {
+        "id": "DPDP-S16-CROSSBORDER",
+        "pattern": "\\b((servers?|data|stored|processed|hosted|transferred)\\b.{0,25}\\b(abroad|overseas|outside india|internationally|in (the )?(us|usa|eu|singapore|other countries))|global servers|cross[- ]border)\\b",
+        "severity": "High",
+        "citation": "DPDP Act 2023, s. 16 (Processing outside India)",
+        "explanation": "States or implies transfer of personal data outside India. s.16 allows the Central Government to restrict transfer to notified countries; such transfers must be checked against any restriction.",
+        "suggested_fix": "Confirm the destination is not a restricted country and disclose the cross-border transfer in the notice.",
+        "basis": "Section 16 - the Central Government may, by notification, restrict transfer of personal data to certain countries or territories.",
+        "gemini": false
+      },
+      {
+        "id": "DPDP-S9-CHILD-WELLBEING",
+        "pattern": "\\b(kids|children|child|toddler|teen(s|ager)?|under[- ]?18)\\b",
+        "severity": "Critical",
+        "citation": "DPDP Act 2023, s. 9(2) (No detrimental processing of children's data)",
+        "explanation": "Child-directed content whose data processing could have a detrimental effect on a child's wellbeing (e.g. profiling, addictive engagement loops, pressure mechanics aimed at minors).",
+        "suggested_fix": "Remove processing or mechanics likely to harm a child's wellbeing; restrict profiling of minors.",
+        "basis": "Section 9(2) - a data fiduciary must not undertake processing likely to cause a detrimental effect on the wellbeing of a child.",
+        "gemini": true
+      },
+      {
+        "id": "DPDP-S11-14-RIGHTS",
+        "pattern": "\\b(sign\\s?up|subscribe|register|create (an )?account|enter your|provide your)\\b.{0,40}\\b(email|phone|number|contact|details|data|address|name)\\b",
+        "severity": "Medium",
+        "citation": "DPDP Act 2023, ss. 11-14 read with s. 5(1) (Notice of data-principal rights)",
+        "explanation": "Collects personal data without informing the user of their rights - access, correction/erasure, grievance redressal and nomination. Note: overlaps DPDP-S5-NOTICE; treat as the rights-specific component of the notice obligation (de-dup/severity-merge will handle co-firing).",
+        "suggested_fix": "Include in the notice how the user can access, correct or erase their data, raise a grievance, and nominate another person.",
+        "basis": "Sections 11 (access), 12 (correction/erasure), 13 (grievance redressal), 14 (nomination), surfaced via the s.5(1) notice.",
+        "gemini": true
       }
     ]
   }
